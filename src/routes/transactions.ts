@@ -5,10 +5,6 @@ import { randomUUID } from 'crypto'
 import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function transactionsRoutes(app: FastifyInstance) {
-  app.addHook('preHandler', async (request, reply) => {
-    console.log('aqui')
-  })
-
   app.get(
     '/',
     {
@@ -16,7 +12,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
     },
     async (request) => {
       const { sessionId } = request.cookies
-      const transactions = knex('transactions')
+      const transactions = await knex('transactions')
         .where('session_id', sessionId)
         .select()
 
